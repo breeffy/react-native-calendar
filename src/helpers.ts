@@ -163,3 +163,14 @@ export const calendarYearAndMonthToMonths = (
 ): CalendarMonth => {
   return calendarYearAndMonth.year * 12 + calendarYearAndMonth.month;
 };
+
+export const isIndexValid = (index: number, array: any[]) => {
+  return index >= 0 && index < array.length;
+};
+
+export const isIndexInRangeInclusive = (
+  index: number,
+  range: readonly [start: number, end: number]
+) => {
+  return index >= range[0] && index <= range[1];
+};

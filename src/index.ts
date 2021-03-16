@@ -1,4 +1,8 @@
 export { Calendar, CalendarProps } from './Calendar';
+export {
+  CalendarMonthFallback,
+  CalendarMonthFallbackProps
+} from './components/calendarMonth';
 export type {
   CalendarDate,
   CalendarDay,

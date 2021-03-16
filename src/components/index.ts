@@ -1,2 +1,2 @@
 export * from './CalendarDaysOfWeekHeader';
-export * from './CalendarMonth';
+export * from './calendarMonth/CalendarMonth';

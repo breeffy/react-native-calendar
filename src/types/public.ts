@@ -52,6 +52,7 @@ export type CalendarCurrentAnimatedMonthInYear = Animated.SharedValue<number>;
 export type CalendarStartMonthFromCommonEra = number;
 export type CalendarEndMonthFromCommonEra = number;
 export type CalendarAnimatedScrollProgress = Animated.SharedValue<number>;
+export type CalendarAnimatedMonthIndex = Animated.SharedValue<number>;
 
 export interface CalendarAnimatedYearAndMonth {
   year: Animated.SharedValue<CalendarYear>;

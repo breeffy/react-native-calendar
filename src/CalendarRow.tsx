@@ -18,7 +18,7 @@ import type {
   CalendarDate,
   CalendarWeek,
   CalendarYearAndMonth,
-  ViewStyleProp
+  WithViewStyleProp
 } from './types';
 
 export type CalendarRowProps = {
@@ -27,7 +27,7 @@ export type CalendarRowProps = {
   activeCalendarDay: CalendarDate;
   selectedDates: CalendarDate[];
   onCalendarDayPress?: (day: CalendarDate, kind: CalendarDayKind) => void;
-} & ViewStyleProp;
+} & WithViewStyleProp;
 
 const CalendarRowComponent = ({
   calendarWeek,

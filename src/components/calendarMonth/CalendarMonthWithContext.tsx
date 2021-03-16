@@ -1,7 +1,8 @@
-import React from 'react';
-import { useCalendarInternal } from '../hooks/useCalendarInternal';
+import React, { memo } from 'react';
+import { useCalendarInternal } from '../../hooks/useCalendarInternal';
 import { CalendarMonth } from './CalendarMonth';
-import type { CalendarYearAndMonth } from '../types/public';
+import isEqual from 'fast-deep-equal';
+import type { CalendarYearAndMonth } from '../../types/public';
 
 export interface CalendarMonthWithContextProps {
   calendarYearAndMonth: CalendarYearAndMonth;
@@ -11,7 +12,7 @@ export interface CalendarMonthWithContextProps {
  * We pass most parameters, except `calendarYearAndMonth`,
  * using Context
  */
-export const CalendarMonthWithContext = ({
+const CalendarMonthWithContextComponent = ({
   calendarYearAndMonth
 }: CalendarMonthWithContextProps) => {
   const {
@@ -19,6 +20,10 @@ export const CalendarMonthWithContext = ({
     selectedDates,
     onCalendarDayStateChange
   } = useCalendarInternal();
+
+  console.log(
+    `CalendarMonthWithContext: ${JSON.stringify(calendarYearAndMonth)}`
+  );
 
   return (
     <CalendarMonth
@@ -29,3 +34,8 @@ export const CalendarMonthWithContext = ({
     />
   );
 };
+
+export const CalendarMonthWithContext = memo(
+  CalendarMonthWithContextComponent,
+  isEqual
+);

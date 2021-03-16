@@ -1,13 +1,22 @@
 import React, { useRef } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Calendar, CalendarProps } from '@breeffy/react-native-calendar';
+import {
+  Calendar,
+  CalendarMonthFallback,
+  CalendarProps
+} from '@breeffy/react-native-calendar';
 import type { CalendarMethods } from '@breeffy/react-native-calendar';
-import type { ViewStyleProp } from '../../../../src/types';
+import type { WithViewStyleProp } from '../../../../src/types';
+import { useCallbackOne } from 'use-memo-one';
+
+type CalendarRenderFallbackMonth = NonNullable<
+  CalendarProps['renderFallbackMonth']
+>;
 
 export type CalendarSheetProps = {
   scrollEnabled?: boolean;
   onDaySelectionChange?: CalendarProps['onDaySelectionChange'];
-} & ViewStyleProp;
+} & WithViewStyleProp;
 
 export const CalendarSheet = ({
   style,
@@ -15,16 +24,26 @@ export const CalendarSheet = ({
 }: CalendarSheetProps) => {
   const calendarRef = useRef<CalendarMethods>(null);
 
+  const renderFallbackMonth = useCallbackOne<CalendarRenderFallbackMonth>(
+    (yearAndMonth) => {
+      return <CalendarMonthFallback calendarYearAndMonth={yearAndMonth} />;
+    },
+    []
+  );
+
   return (
     <View style={[styles.container, style]}>
       <Calendar
         style={styles.calendar}
         ref={calendarRef}
         selectionMode="singleDay"
-        scrollMode="multipleMonths"
-        scrollModeDeceleration="fast"
-        monthsBefore={12}
-        monthsAfter={24}
+        // scrollMode="multipleMonths"
+        scrollMode="anyOffset"
+        // scrollModeDeceleration="fast"
+        scrollModeDeceleration="normal"
+        monthsBefore={0}
+        monthsAfter={100}
+        renderFallbackMonth={renderFallbackMonth}
         onDaySelectionChange={onDaySelectionChange}
       />
     </View>

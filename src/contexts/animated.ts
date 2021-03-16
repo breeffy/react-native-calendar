@@ -4,7 +4,8 @@ import type {
   CalendarEndMonthFromCommonEra,
   CalendarStartMonthFromCommonEra,
   CalendarAnimatedScrollProgress,
-  CalendarCurrentAnimatedMonthInYear
+  CalendarCurrentAnimatedMonthInYear,
+  CalendarAnimatedMonthIndex
 } from '../types';
 
 export interface CalendarAnimatedContextInterface {
@@ -13,6 +14,7 @@ export interface CalendarAnimatedContextInterface {
   calendarStartMonthFromCommonEra: CalendarStartMonthFromCommonEra;
   calendarEndMonthFromCommonEra: CalendarEndMonthFromCommonEra;
   calendarAnimatedScrollProgress: CalendarAnimatedScrollProgress;
+  calendarAnimatedMonthIndex: CalendarAnimatedMonthIndex;
 }
 
 // @ts-expect-error

@@ -23,7 +23,10 @@ import { CalendarAnimatedProvider } from './contexts/animated';
 import { CalendarDaysOfWeekHeader } from './components';
 import { calendarYearAndMonthToMonths } from './helpers';
 import { CalendarScrollableMonths } from './CalendarScrollableMonths';
-import { calculateScrollProgress } from './worklets';
+import {
+  calculateScrollProgress,
+  calculateMonthIndexProgress
+} from './worklets';
 import { CalendarHeaderMonth } from './components/header/CalendarHeaderMonth';
 import { useCalendarInterval, useSelectedDates } from './hooks';
 import { CalendarHeaderYear } from './components/header/CalendarHeaderYear';
@@ -38,7 +41,7 @@ import type {
   CalendarKind,
   CalendarMethods,
   CalendarYearAndMonth,
-  ViewStyleProp,
+  WithViewStyleProp,
   CalendarSelectionMode
 } from './types';
 
@@ -98,8 +101,25 @@ export type CalendarProps = {
    * If provided, will be highlighted in active color.
    */
   activeCalendarDay?: CalendarDate;
+
+  /**
+   * How much normal months will be rendered (window)
+   * from left and right of currently shown month
+   * in **blank-free** mode.
+   *
+   * @default `1`
+   */
+  fallbackWindowSize?: number;
+
+  /**
+   * Render fallback month when calendar is not able
+   * to render full month. Fallback month should be
+   * very lightweight and simple.
+   * Fallback month is used to provide **blank-free scrolling**.
+   */
+  renderFallbackMonth?: (yearAndMonth: CalendarYearAndMonth) => JSX.Element;
   onDaySelectionChange?: (day: DateTime) => void;
-} & ViewStyleProp;
+} & WithViewStyleProp;
 
 export const Calendar = forwardRef<CalendarMethods, CalendarProps>(
   (
@@ -111,7 +131,9 @@ export const Calendar = forwardRef<CalendarMethods, CalendarProps>(
       scrollMode = 'multipleMonths',
       scrollModeDeceleration = 'normal',
       activeCalendarDay: _activeCalendarDay,
-      style
+      fallbackWindowSize = 1,
+      style,
+      renderFallbackMonth
     }: CalendarProps,
     ref
   ) => {
@@ -201,20 +223,36 @@ export const Calendar = forwardRef<CalendarMethods, CalendarProps>(
       false
     );
 
+    const calendarInitialMonthIndex = useMemoOne(() => {
+      return runOnJS(
+        calculateMonthIndexProgress
+      )(calendarAnimatedCommonEraMonth, [
+        calendarStartMonthFromCommonEra,
+        calendarEndMonthFromCommonEra
+      ]);
+    }, [calendarStartMonthFromCommonEra, calendarEndMonthFromCommonEra]);
+
+    const calendarAnimatedMonthIndex = useSharedValue(
+      calendarInitialMonthIndex,
+      false
+    );
+
     const animatedContextVariables = useMemo<CalendarAnimatedContextInterface>(
       () => ({
         calendarAnimatedCommonEraMonth: calendarAnimatedCommonEraMonth,
         calendarCurrentAnimatedMonthInYear: calendarCurrentAnimatedMonthInYear,
         calendarAnimatedScrollProgress: calendarAnimatedScrollProgress,
         calendarStartMonthFromCommonEra: calendarStartMonthFromCommonEra,
-        calendarEndMonthFromCommonEra: calendarEndMonthFromCommonEra
+        calendarEndMonthFromCommonEra: calendarEndMonthFromCommonEra,
+        calendarAnimatedMonthIndex: calendarAnimatedMonthIndex
       }),
       [
         calendarAnimatedCommonEraMonth,
         calendarCurrentAnimatedMonthInYear,
         calendarAnimatedScrollProgress,
         calendarStartMonthFromCommonEra,
-        calendarEndMonthFromCommonEra
+        calendarEndMonthFromCommonEra,
+        calendarAnimatedMonthIndex
       ]
     );
 
@@ -307,8 +345,11 @@ export const Calendar = forwardRef<CalendarMethods, CalendarProps>(
               <CalendarScrollableMonths
                 scrollMode={scrollMode}
                 scrollModeDeceleration={scrollModeDeceleration}
+                initialCalendarYearAndMonth={initialCalendarYearAndMonth}
                 activeCalendarDay={activeCalendarDay}
                 selectedDates={selectedDates}
+                fallbackWindowSize={fallbackWindowSize}
+                renderFallbackMonth={renderFallbackMonth}
                 onCalendarDayPress={onCalendarDayStateChange}
               />
             </CalendarAnimatedProvider>

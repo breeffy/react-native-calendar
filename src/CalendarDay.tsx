@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useMemoOne } from 'use-memo-one';
 import { Circle } from './components/Svg';
 import { dayOfWeekWidth } from './constants';
-import type { ViewStyleProp } from './types';
+import type { WithViewStyleProp } from './types';
 
 export enum CalendarDayKind {
   DEFAULT,
@@ -15,7 +15,7 @@ export enum CalendarDayKind {
 export type CalendarDayProps = {
   kind?: CalendarDayKind;
   day: number;
-} & ViewStyleProp;
+} & WithViewStyleProp;
 
 export const CalendarDay = ({
   kind = CalendarDayKind.DEFAULT,

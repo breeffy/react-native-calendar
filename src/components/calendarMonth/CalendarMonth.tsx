@@ -2,18 +2,19 @@ import React, { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { DateTime, Interval } from 'luxon';
 import { useMemoOne } from 'use-memo-one';
-import { CalendarRow } from '../CalendarRow';
-import { Constants } from '../constants';
-import { NotCalendarWeek } from '../exceptions';
+import { CalendarRow } from '../../CalendarRow';
+import { Constants } from '../../constants';
+import { NotCalendarWeek } from '../../exceptions';
 import {
   dateTimeArraysDifference,
   isCalendarDatesEqual,
   isCalendarWeek,
   isCalendarYearAndMonthEqual,
   monthContainsSomeDate
-} from '../helpers';
-import type { CalendarDate, CalendarYearAndMonth } from '../types';
+} from '../../helpers';
+import type { CalendarDate, CalendarYearAndMonth } from '../../types';
 import type { CalendarDayKind } from 'src/CalendarDay';
+import { CalendarMonthContainer } from './CalendarMonthContainer';
 
 export interface CalendarMonthProps {
   calendarYearAndMonth: CalendarYearAndMonth;
@@ -75,29 +76,33 @@ const CalendarMonthComponent = ({
   }, [daysInMonth]);
 
   return (
-    <View style={styles.container}>
-      {weeks.map((week) => {
-        return (
-          <CalendarRow
-            style={styles.calendarRow}
-            key={week.calendarWeekIndex}
-            calendarWeek={week.calendarWeek}
-            calendarYearAndMonth={calendarYearAndMonth}
-            activeCalendarDay={activeCalendarDay}
-            selectedDates={selectedDates}
-            onCalendarDayPress={onCalendarDayPress}
-          />
-        );
-      })}
-    </View>
+    <CalendarMonthContainer>
+      <View style={styles.container}>
+        {weeks.map((week) => {
+          return (
+            <CalendarRow
+              style={styles.calendarRow}
+              key={week.calendarWeekIndex}
+              calendarWeek={week.calendarWeek}
+              calendarYearAndMonth={calendarYearAndMonth}
+              activeCalendarDay={activeCalendarDay}
+              selectedDates={selectedDates}
+              onCalendarDayPress={onCalendarDayPress}
+            />
+          );
+        })}
+      </View>
+    </CalendarMonthContainer>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'rgba(255, 255, 255, 1)',
-    marginTop: 8
+    // flex: 1,
+    flex: 0,
+    paddingTop: 8
+    // backgroundColor: 'green'
+    // backgroundColor: 'rgba(255, 255, 255, 1)'
   },
   calendarRow: {
     minHeight: 38,

@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Svg, Line as SvgLine, Circle as SvgCircle } from 'react-native-svg';
-import type { ViewStyleProp } from '../types';
+import type { WithViewStyleProp } from '../types';
 
-export type LineProps = {} & ViewStyleProp;
+export type LineProps = {} & WithViewStyleProp;
 
 export const Line = ({ style }: LineProps) => (
   <View style={style}>
@@ -20,7 +20,7 @@ export const Line = ({ style }: LineProps) => (
   </View>
 );
 
-export type CircleProps = {} & ViewStyleProp;
+export type CircleProps = {} & WithViewStyleProp;
 
 export const Circle = ({ style }: CircleProps) => {
   return (
