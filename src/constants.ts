@@ -34,6 +34,11 @@ export const windowWidth = _window.width;
 export const windowHeight = _window.height;
 export const dayOfWeekWidth = (windowWidth - 32) / 7;
 
+export const PickerConstants = Object.freeze({
+  ValueWidth: 64,
+  ValueHeight: 64
+} as const);
+
 export const CalendarPerformanceProps = Object.freeze({
   initialNumToRender: 1,
   windowSize: 2,

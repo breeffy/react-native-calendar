@@ -10,6 +10,7 @@ import type {
   CalendarWeek,
   CalendarYearAndMonth
 } from './types';
+import type { PickerTextTheme } from './types/pickerTheme';
 
 export const getIdFromCalendarDate = (date: CalendarDate): string => {
   return `${date.year}-${date.month}-${date.day}`;
@@ -169,31 +170,31 @@ export const calendarYearAndMonthToMonths = (
   return calendarYearAndMonth.year * 12 + calendarYearAndMonth.month;
 };
 
-const calendarTextThemeToTextStyle = (
-  calendarTextTheme: CalendarTextTheme
+export const textThemeToTextStyle = (
+  textTheme: CalendarTextTheme | PickerTextTheme
 ): TextStyle => {
   return {
-    fontFamily: calendarTextTheme.textFont,
-    fontWeight: calendarTextTheme.textWeight,
-    fontSize: calendarTextTheme.textSize,
-    color: calendarTextTheme.textColor
+    fontFamily: textTheme.textFont,
+    fontWeight: textTheme.textWeight,
+    fontSize: textTheme.textSize,
+    color: textTheme.textColor
   };
 };
 
 export const calendarDayThemeToTextStyle = (
   calendarDayTheme: CalendarDayTheme
 ): TextStyle => {
-  return calendarTextThemeToTextStyle(calendarDayTheme);
+  return textThemeToTextStyle(calendarDayTheme);
 };
 
 export const calendarHeaderThemeToTextStyle = (
   calendarHeaderTheme: CalendarHeaderTheme
 ): TextStyle => {
-  return calendarTextThemeToTextStyle(calendarHeaderTheme);
+  return textThemeToTextStyle(calendarHeaderTheme);
 };
 
 export const calendarDaysOfWeekToTextStyle = (
   calendarDaysOfWeekTheme: CalendarDaysOfWeekTheme
 ): TextStyle => {
-  return calendarTextThemeToTextStyle(calendarDaysOfWeekTheme);
+  return textThemeToTextStyle(calendarDaysOfWeekTheme);
 };

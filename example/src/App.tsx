@@ -3,7 +3,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { AppearanceProvider } from './components/appearanceProvider';
 import { Showcase } from './screens/showcase';
-import { ModalBottomSheet, ScrollMode, SelectionMode } from './screens/basic';
+import {
+  ModalBottomSheet,
+  ScrollMode,
+  SelectionMode,
+  TimePicker
+} from './screens/basic';
+import { CardPickerExamples } from './screens/cardPickers';
 import { AppProvider } from './contexts/internal';
 import { Header } from './screens/showcase/Header';
 import type { TextStyle, ViewStyle } from 'react-native';
@@ -67,6 +73,20 @@ export const App = () => {
               options={{
                 header: Header
               }}
+            />
+            <Stack.Screen
+              name="TimePicker"
+              options={{
+                title: 'Time Picker'
+              }}
+              getComponent={() => () => <TimePicker />}
+            />
+            <Stack.Screen
+              name="CardPicker"
+              options={{
+                title: 'Card Picker'
+              }}
+              getComponent={() => () => <CardPickerExamples />}
             />
             <Stack.Screen
               name="SingleDaySelectionMode"

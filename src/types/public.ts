@@ -6,6 +6,8 @@
 import type { FlatListProps } from 'react-native';
 import type Animated from 'react-native-reanimated';
 
+export type { PickerItemProps } from '../components/itemPicker/types';
+
 export type CalendarKind = 'gregorian';
 
 export type CalendarYear = number;
